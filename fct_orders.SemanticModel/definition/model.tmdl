@@ -1,0 +1,18 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["fct_orders_v1"]
+
+annotation PBI_ProTooling = ["WebModelingEdit"]
+
+ref table fct_orders_v1
+ref table DateTableTemplate_7a2dddb0-bcb5-4d77-b491-1d853b7e4f63
+ref table LocalDateTable_fee81ac5-0a65-4d66-a317-1414324fca21
+

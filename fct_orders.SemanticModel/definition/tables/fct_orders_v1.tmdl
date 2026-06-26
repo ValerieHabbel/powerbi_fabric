@@ -1,0 +1,60 @@
+table fct_orders_v1
+	lineageTag: c6303ec4-5e10-4986-8647-bf48f0f57900
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ddd92c2c-d844-4f45-87c6-3b9f95308638
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f3f77003-670c-401b-a436-0ee1faa82387
+		summarizeBy: sum
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9e0c43c0-ec33-4762-bc8f-24d583bb00e3
+		summarizeBy: none
+		sourceColumn: order_date
+
+		variation Variation
+			isDefault
+			relationship: 890f8344-75d3-4023-8f43-7484676abf25
+			defaultHierarchy: LocalDateTable_fee81ac5-0a65-4d66-a317-1414324fca21.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column amount
+		dataType: double
+		lineageTag: 33e3d1c0-a8e7-4557-997d-b69ae50a885f
+		summarizeBy: sum
+		sourceColumn: amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fct_orders_v1 = m
+		mode: import
+		source =
+				let
+				  Source = DatabricksMultiCloud.Catalogs("adb-3092980247566120.0.azuredatabricks.net", "/sql/1.0/warehouses/4134631dd62d11c0", [Catalog = null, Database = null, QueryTags = null, EnableAutomaticProxyDiscovery = "enabled", Implementation = "2.0", Protocol = null]),
+				  #"Navigation 1" = Source{[Name = "hive_metastore", Kind = "Database"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Name = "dbt_vhabbel", Kind = "Schema"]}[Data],
+				  #"Navigation 3" = #"Navigation 2"{[Name = "fct_orders_v1", Kind = "Table"]}[Data]
+				in
+				  #"Navigation 3"
+
+	annotation PBI_ResultType = Table
+

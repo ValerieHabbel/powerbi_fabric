@@ -1,0 +1,5 @@
+relationship 890f8344-75d3-4023-8f43-7484676abf25
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_orders_v1.order_date
+	toColumn: LocalDateTable_fee81ac5-0a65-4d66-a317-1414324fca21.Date
+
