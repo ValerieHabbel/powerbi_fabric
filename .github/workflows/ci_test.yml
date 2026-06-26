@@ -23,11 +23,11 @@ jobs:
       - name: Trigger Fabric deployment pipeline
         run: |
           curl -X POST \
-            "https://api.fabric.microsoft.com/v1/pipelines/${{ secrets.PIPELINE_ID }}/deployAll" \
+            "https://api.fabric.microsoft.com/v1/deploymentPipelines/${{ secrets.PIPELINE_ID }}/deployAll" \
             -H "Authorization: Bearer ${{ steps.token.outputs.token }}" \
             -H "Content-Type: application/json" \
             -d '{
-              "sourceStageOrder": 1,
+              "sourceStageOrder": 0,
               "isBackwardDeployment": false,
               "newWorkspace": null,
               "note": "Deployed via GitHub Actions"
