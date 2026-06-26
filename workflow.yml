@@ -1,0 +1,34 @@
+name: Deploy to Fabric Acc
+
+on:
+  push:
+    branches: [test]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Azure token
+        id: token
+        run: |
+          TOKEN=$(curl -s -X POST \
+            "https://login.microsoftonline.com/${{ secrets.TENANT_ID }}/oauth2/v2.0/token" \
+            -d "grant_type=client_credentials" \
+            -d "client_id=${{ secrets.CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.CLIENT_SECRET }}" \
+            -d "scope=https://api.fabric.microsoft.com/.default" \
+            | jq -r '.access_token')
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Trigger Fabric deployment pipeline
+        run: |
+          curl -X POST \
+            "https://api.fabric.microsoft.com/v1/pipelines/${{ secrets.PIPELINE_ID }}/deployAll" \
+            -H "Authorization: Bearer ${{ steps.token.outputs.token }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "sourceStageOrder": 1,
+              "isBackwardDeployment": false,
+              "newWorkspace": null,
+              "note": "Deployed via GitHub Actions"
+            }'
