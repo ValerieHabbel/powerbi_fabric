@@ -1,0 +1,10 @@
+relationship 2f1d4dc8-e609-4b65-a1dd-62050998ef6c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.first_order_date
+	toColumn: LocalDateTable_b1615614-4fa1-4d51-85e6-987e418b395b.Date
+
+relationship 19373368-f86c-4ff8-aab6-1c28b96732df
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.most_recent_order_date
+	toColumn: LocalDateTable_54b4633b-d92f-4565-b039-8f7e12b00b68.Date
+
