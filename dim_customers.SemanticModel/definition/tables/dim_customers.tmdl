@@ -1,0 +1,90 @@
+table dim_customers
+	lineageTag: 8c842f89-2e91-414a-becf-f12ced8e4570
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b61b89e2-53f5-494b-ad6f-1ac93d92e8e7
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_name
+		dataType: string
+		lineageTag: 84950cbe-4f50-4c69-aeb7-e6bb29f5a53d
+		summarizeBy: none
+		sourceColumn: first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_name
+		dataType: string
+		lineageTag: e4cff9e1-3e53-4c4a-9d70-0721b560783e
+		summarizeBy: none
+		sourceColumn: last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_order_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 53544b61-2c47-4eb4-8e06-9b4b1f1081a3
+		summarizeBy: none
+		sourceColumn: first_order_date
+
+		variation Variation
+			isDefault
+			relationship: 2f1d4dc8-e609-4b65-a1dd-62050998ef6c
+			defaultHierarchy: LocalDateTable_b1615614-4fa1-4d51-85e6-987e418b395b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column most_recent_order_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6dd8cf7f-c170-46b9-95eb-5c8ad75ae802
+		summarizeBy: none
+		sourceColumn: most_recent_order_date
+
+		variation Variation
+			isDefault
+			relationship: 19373368-f86c-4ff8-aab6-1c28b96732df
+			defaultHierarchy: LocalDateTable_54b4633b-d92f-4565-b039-8f7e12b00b68.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column number_of_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 44cc4e17-ac75-478d-a991-81fe1f1988ea
+		summarizeBy: sum
+		sourceColumn: number_of_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column lifetime_value
+		dataType: double
+		lineageTag: 35e41c9b-6199-4404-a90b-d536f927edae
+		summarizeBy: sum
+		sourceColumn: lifetime_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_customers = m
+		mode: import
+		source =
+				let
+				  Source = DatabricksMultiCloud.Catalogs("adb-3092980247566120.0.azuredatabricks.net", "/sql/1.0/warehouses/4134631dd62d11c0", [Catalog = null, Database = null, QueryTags = null, EnableAutomaticProxyDiscovery = "enabled", Implementation = "2.0", Protocol = null]),
+				  #"Navigation 1" = Source{[Name = "hive_metastore", Kind = "Database"]}[Data],
+				  #"Navigation 2" = #"Navigation 1"{[Name = "dbt_vhabbel_prod", Kind = "Schema"]}[Data],
+				  #"Navigation 3" = #"Navigation 2"{[Name = "dim_customers", Kind = "Table"]}[Data]
+				in
+				  #"Navigation 3"
+
